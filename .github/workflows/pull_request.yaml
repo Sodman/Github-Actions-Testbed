@@ -46,12 +46,14 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: skip-ci-${{ github.sha }}
-      - name: Skip Result
+      - name: Read Skip CI Flag
         run: |
-          cat skip-ci.txt >> $GITHUB_ENV 
-          echo "Will CI be skipped? - ${{ env.SKIP_CI }}"
+          cat skip-ci.txt >> $GITHUB_ENV
+      - name: Print Skip Result
+        run: |
+          echo "Will CI be skipped? - ${{ env.SKIP_CI == 'true' }}"
       - name: Run test suite
-        if: ${{ env.SKIP_CI == false }} # only run if skip ci is not truthy
+        if: ${{ !(env.SKIP_CI == 'true') }} # only run if skip ci is not true
         # Fake long tests
         run: |
           echo "Starting 2 minutes of 'testing'..." && sleep 120 && echo "Ok done"
