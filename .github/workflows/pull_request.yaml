@@ -30,7 +30,7 @@ jobs:
       - name: Run test suite
         # Fake long tests
         run: |
-          echo "Starting 5 minutes of 'testing'..." && sleep 300 && echo "Ok done"
+          echo "Starting 2 minutes of 'testing'..." && sleep 120 && echo "Ok done"
   skip-the-tests:
     name: run-tests
     runs-on: ubuntu-18.04
@@ -47,8 +47,6 @@ jobs:
         with:
           access_token: ${{ github.token }}
       - uses: actions/checkout@v2
-      - run: |
-          git fetch --prune --unshallow
       - name: Skip checks
         run: |
           echo "Checks Skipped because of comment on #${{ github.event.issue.number }}"
