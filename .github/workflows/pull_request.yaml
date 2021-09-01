@@ -31,8 +31,8 @@ jobs:
         # Fake long tests
         run: |
           echo "Starting 5 minutes of 'testing'..." && sleep 300 && echo "Ok done"
-  skip-ci:
-    name: skip-ci
+  run-the-tests:
+    name: run-tests
     runs-on: ubuntu-18.04
     if: ${{ github.event.issue.pull_request }}
     steps:
