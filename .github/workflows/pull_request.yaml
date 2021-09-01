@@ -32,7 +32,7 @@ jobs:
         run: |
           echo "Starting 5 minutes of 'testing'..." && sleep 300 && echo "Ok done"
   skip-the-tests:
-    name: run-tests
+    name: run-tests-skipped
     runs-on: ubuntu-18.04
     if: ${{ github.event.issue.pull_request }}
     steps:
