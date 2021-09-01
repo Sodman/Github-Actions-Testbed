@@ -31,10 +31,16 @@ jobs:
         # Fake long tests
         run: |
           echo "Starting 5 minutes of 'testing'..." && sleep 300 && echo "Ok done"
-  skip-ci:
-    name: skip-ci
+  skip-the-tests:
+    name: run-tests
     runs-on: ubuntu-18.04
     if: ${{ github.event.issue.pull_request }}
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+        - 'first-thing'
+        - 'second-thing'
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.4.0
@@ -45,4 +51,4 @@ jobs:
           git fetch --prune --unshallow
       - name: Skip checks
         run: |
-          echo "Checks Skipped"
+          echo "Checks Skipped because of comment on #${{ github.event.issue.number }}"
