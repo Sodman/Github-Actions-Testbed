@@ -1,0 +1,48 @@
+name: pull_request
+
+on:
+  push:
+    branches:
+      - 'main'
+  issue_comment:
+    types: [created, edited]
+  pull_request:
+
+
+jobs:
+  run-the-tests:
+    name: run-tests
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+        - 'first-thing'
+        - 'second-thing'
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.4.0
+        with:
+          access_token: ${{ github.token }}
+      - uses: actions/checkout@v2
+      - run: |
+          git fetch --prune --unshallow
+      - name: Run test suite
+        # Fake long tests
+        run: |
+          echo "Starting 5 minutes of 'testing'..." && sleep 300 && echo "Ok done"
+  skip-ci:
+    name: skip-ci
+    runs-on: ubuntu-18.04
+    if: ${{ github.event.issue.pull_request }}
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.4.0
+        with:
+          access_token: ${{ github.token }}
+      - uses: actions/checkout@v2
+      - run: |
+          git fetch --prune --unshallow
+      - name: Skip checks
+        run: |
+          echo "Checks Skipped"
