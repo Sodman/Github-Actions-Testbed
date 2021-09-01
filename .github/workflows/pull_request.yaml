@@ -51,4 +51,4 @@ jobs:
           git fetch --prune --unshallow
       - name: Skip checks
         run: |
-          echo "Checks Skipped"
+          echo "Checks Skipped because of comment on #${{ github.event.issue.number }}"
