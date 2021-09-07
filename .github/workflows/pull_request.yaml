@@ -18,7 +18,7 @@ jobs:
       - name: Skip Result
         run: |
           echo "Will CI be skipped? - ${{ env.SKIP_CI }}"
-      - name: 'Upload SKIP_CI result Artifact'
+      - name: Upload SKIP_CI result Artifact
           uses: actions/upload-artifact@v2
           with:
             name: ${{ github.sha }}/skip-ci
