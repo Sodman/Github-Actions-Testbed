@@ -10,7 +10,7 @@ set -ex
 echo "SKIP_CI=false" >> $GITHUB_ENV
 
 echo "Diff debug start"
-echo $(git diff origin/main..$GITHUB_HEAD_REF)
+echo $(git diff origin/main $GITHUB_HEAD_REF)
 echo "Diff debug end"
 
 if [[ $(git diff origin/main..$GITHUB_HEAD_REF | grep "+++ b/changelog/" | wc -l) = "       1" ]]; then
