@@ -1,0 +1,4 @@
+# Non functional list of features.
+
+- First big feature
+- Second big feature
