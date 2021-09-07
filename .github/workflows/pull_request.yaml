@@ -36,6 +36,9 @@ jobs:
       - uses: actions/checkout@v2
       - run: |
           git fetch --prune --unshallow
+      - name: Skip Result
+        run: |
+          echo "Will CI be skipped? - ${{ env.SKIP_CI }}"
       - name: Run test suite
         if: ${{ env.SKIP_CI == false }} # only run if skip ci is not truthy
         # Fake long tests
