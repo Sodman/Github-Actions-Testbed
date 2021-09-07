@@ -9,7 +9,7 @@ set -ex
 
 echo "SKIP_CI=false" >> $GITHUB_ENV
 
-if [[ $(git diff origin/main HEAD --name-only | grep "changelog/" | wc -l) = "       1" ]]; then
+if [[ $(git diff origin/main HEAD --name-only | grep "changelog/" | wc -l) = "1" ]]; then
     echo "exactly one changelog added since main"
     changelogFileName=$(git diff origin/main HEAD --name-only | grep "changelog/")
     echo "changelog file name == $changelogFileName"
