@@ -10,13 +10,13 @@ set -ex
 echo "SKIP_CI=false" >> $GITHUB_ENV
 
 echo "Diff debug start"
-echo $(git diff origin/main $GITHUB_HEAD_REF)
+echo $(git diff origin/main HEAD)
 echo "Diff debug end"
 
-if [[ $(git diff origin/main..$GITHUB_HEAD_REF | grep "+++ b/changelog/" | wc -l) = "       1" ]]; then
+if [[ $(git diff origin/main HEAD | grep "+++ b/changelog/" | wc -l) = "       1" ]]; then
     echo "exactly one changelog added since main"
 #     gitFileChange=$(git diff $GITHUB_BASE_REF..$GITHUB_HEAD_REF | grep "+++ b/changelog/")
-    gitFileChange=$(git diff origin/main..$GITHUB_HEAD_REF | grep "+++ b/changelog/")
+    gitFileChange=$(git diff origin/main HEAD | grep "+++ b/changelog/")
     changelogFileName=$(echo $gitFileChange | sed 's/+++ b\///g')
     echo "changelog file name == $changelogFileName"
     if [[ $(cat $changelogFileName | grep "skipCI: true") ]]; then
