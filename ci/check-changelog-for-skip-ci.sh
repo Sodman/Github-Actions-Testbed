@@ -5,6 +5,8 @@
 # with the "skipCI" field set to true.
 ###################################################################################
 
+set -ex
+
 echo "SKIP_CI=false" >> $GITHUB_ENV
 
 if [[ $(git diff origin/main..$GITHUB_HEAD_REF | grep "+++ b/changelog/" | wc -l) = "       1" ]]; then
