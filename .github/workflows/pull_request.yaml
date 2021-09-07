@@ -21,7 +21,7 @@ jobs:
       - name: Upload SKIP_CI result Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ github.sha }}/skip-ci
+          name: skip-ci-${{ github.sha }}
           path: skip-ci.txt
           retention-days: 1
   run-the-tests:
@@ -45,7 +45,7 @@ jobs:
       - name: Check for Skip CI Flag
         uses: actions/download-artifact@v2
         with:
-          name: ${{ github.sha }}/skip-ci
+          name: skip-ci-${{ github.sha }}
       - name: Skip Result
         run: |
           cat skip-ci.txt >> $GITHUB_ENV 
