@@ -19,11 +19,11 @@ jobs:
         run: |
           echo "Will CI be skipped? - ${{ env.SKIP_CI }}"
       - name: Upload SKIP_CI result Artifact
-          uses: actions/upload-artifact@v2
-          with:
-            name: ${{ github.sha }}/skip-ci
-            path: skip-ci.txt
-            retention-days: 1
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ github.sha }}/skip-ci
+          path: skip-ci.txt
+          retention-days: 1
   run-the-tests:
     name: run-tests
     runs-on: ubuntu-18.04
