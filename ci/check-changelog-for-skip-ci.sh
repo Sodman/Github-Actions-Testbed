@@ -1,20 +1,30 @@
 #!/usr/bin/env bash
 
-###################################################################################
+################################################################
 # This script checks to see if a changelog file has been added
 # with the "skipCI" field set to true.
-###################################################################################
+#
+# It will set the SKIP_CI env variable to true which can be
+# used across steps in the same job
+# 
+# It will  write a file called skip-ci.txt with contents of
+# either SKIP_CI=true or SKIP_CI=false - which can be used
+# across different jobs in the same workflow
+################################################################
 
-echo "false" >> $SKIP_CI
+set -ex
 
-if [[ $(git diff main | grep "+++ b/changelog/" | wc -l) = "       1" ]]; then
+echo "SKIP_CI=false" >> $GITHUB_ENV
+echo "SKIP_CI=false" > skip-ci.txt
+
+if [[ $(git diff origin/main HEAD --name-only | grep "changelog/" | wc -l) = "1" ]]; then
     echo "exactly one changelog added since main"
-    gitFileChange=$(git diff main | grep "+++ b/changelog/")
-    changelogFileName=$(echo $gitFileChange | sed 's/+++ b\///g')
+    changelogFileName=$(git diff origin/main HEAD --name-only | grep "changelog/")
     echo "changelog file name == $changelogFileName"
     if [[ $(cat $changelogFileName | grep "skipCI: true") ]]; then
         echo "skip CI"
-	echo "true" >> $SKIP_CI
+	echo "SKIP_CI=true" >> $GITHUB_ENV
+	echo "SKIP_CI=true" > skip-ci.txt
     else
         echo "skipCI not set to true - not skipping CI"
     fi
