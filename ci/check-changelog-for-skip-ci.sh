@@ -5,7 +5,7 @@
 # with the "skipCI" field set to true.
 ###################################################################################
 
-echo "false" >> $SKIP_CI
+echo "SKIP_CI=false" >> $GITHUB_ENV
 
 if [[ $(git diff main | grep "+++ b/changelog/" | wc -l) = "       1" ]]; then
     echo "exactly one changelog added since main"
@@ -14,7 +14,7 @@ if [[ $(git diff main | grep "+++ b/changelog/" | wc -l) = "       1" ]]; then
     echo "changelog file name == $changelogFileName"
     if [[ $(cat $changelogFileName | grep "skipCI: true") ]]; then
         echo "skip CI"
-	echo "true" >> $SKIP_CI
+	echo "SKIP_CI=true" >> $GITHUB_ENV
     else
         echo "skipCI not set to true - not skipping CI"
     fi

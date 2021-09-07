@@ -34,7 +34,7 @@ jobs:
       - run: |
           git fetch --prune --unshallow
       - name: Run test suite
-        if: ${{ !env.skip_ci }} # only run if skip ci is not truthy
+        if: ${{ !env.SKIP_CI }} # only run if skip ci is not truthy
         # Fake long tests
         run: |
           echo "Starting 2 minutes of 'testing'..." && sleep 120 && echo "Ok done"
