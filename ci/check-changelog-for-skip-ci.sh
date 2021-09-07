@@ -7,9 +7,10 @@
 
 echo "SKIP_CI=false" >> $GITHUB_ENV
 
-if [[ $(git diff $GITHUB_BASE_REF..$GITHUB_HEAD_REF | grep "+++ b/changelog/" | wc -l) = "       1" ]]; then
-    echo "exactly one changelog added since target branch"
-    gitFileChange=$(git diff $GITHUB_BASE_REF..$GITHUB_HEAD_REF | grep "+++ b/changelog/")
+if [[ $(git diff origin/main..$GITHUB_HEAD_REF | grep "+++ b/changelog/" | wc -l) = "       1" ]]; then
+    echo "exactly one changelog added since main"
+#     gitFileChange=$(git diff $GITHUB_BASE_REF..$GITHUB_HEAD_REF | grep "+++ b/changelog/")
+    gitFileChange=$(git diff origin/main..$GITHUB_HEAD_REF | grep "+++ b/changelog/")
     changelogFileName=$(echo $gitFileChange | sed 's/+++ b\///g')
     echo "changelog file name == $changelogFileName"
     if [[ $(cat $changelogFileName | grep "skipCI: true") ]]; then
