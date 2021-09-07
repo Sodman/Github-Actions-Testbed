@@ -18,6 +18,12 @@ jobs:
       - name: Skip Result
         run: |
           echo "Will CI be skipped? - ${{ env.SKIP_CI }}"
+      - name: 'Upload SKIP_CI result Artifact'
+          uses: actions/upload-artifact@v2
+          with:
+            name: ${{ github.sha }}/skip-ci
+            path: skip-ci.txt
+            retention-days: 1
   run-the-tests:
     name: run-tests
     runs-on: ubuntu-18.04
@@ -36,8 +42,13 @@ jobs:
       - uses: actions/checkout@v2
       - run: |
           git fetch --prune --unshallow
+      - name: Check for Skip CI Flag
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ github.sha }}/skip-ci
       - name: Skip Result
         run: |
+          cat skip-ci.txt >> $GITHUB_ENV 
           echo "Will CI be skipped? - ${{ env.SKIP_CI }}"
       - name: Run test suite
         if: ${{ env.SKIP_CI == false }} # only run if skip ci is not truthy
