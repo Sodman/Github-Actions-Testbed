@@ -21,12 +21,12 @@ jobs:
     machine:
       image: ubuntu-2004:202107-02
     steps:
+      - checkout
       - attach_workspace:
-          at: ./
+          at: /tmp/skipped-ci/
       - run:
           name: check if skip artifact transferred
-          command: ls -la && cat skip-ci.txt
-      - checkout
+          command: ls -la /tmp/skipped-ci/ && cat /tmp/skipped-ci/skip-ci.txt
       - run:
           name: run unit tests
           command: |
