@@ -45,7 +45,7 @@ workflows:
   build:
     jobs:
       - check-skip-tests
-      - unit-tests
+      - unit-tests:
           requires:
             - check-skip-tests
       - all-tests:
