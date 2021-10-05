@@ -1,8 +1,14 @@
 version: 2.1
+
+setup: true
+
+
+orbs:
+  continuation: circleci/continuation@0.1.2
+
 jobs:
-  check-skip-tests:
-    machine:
-      image: ubuntu-2004:202107-02
+  setup:
+    executor: continuation/default
     steps:
       - checkout
       - run:
@@ -12,57 +18,37 @@ jobs:
           name: print the output
           command: |
             cat ./skip-ci.txt
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - skip-ci.txt
-  unit-tests:
-    parallelism: 4
-    machine:
-      image: ubuntu-2004:202107-02
-    steps:
-      - checkout
-      - attach_workspace:
-          at: /tmp/skipped-ci/
       - run:
-          name: check if skip artifact transferred
-          command: ls -la /tmp/skipped-ci/ && cat /tmp/skipped-ci/skip-ci.txt
-      - run:
-          name: run unit tests
+          name: Generate config
           command: |
-            echo "Starting 30 seconds of 'unit testing'..." && sleep 30 && echo "Ok done"
-  all-tests:
-    parameters:
-      platform_variant:
-        type: string
-      modifier:
-        type: string
-    machine:
-      image: ubuntu-2004:202107-02
-    steps:
-      - checkout
-      - run:
-          name: e2e tests
-          environment:
-            PLATFORM_VARIANT: << parameters.platform_variant >>
-            MODIFIER: << parameters.modifier >>
-          command: |
-            echo "Starting 30 seconds of 'unit testing' for platform: $PLATFORM_VARIANT and modifier $MODIFIER..." && sleep 30 && echo "Ok done"
+            if [[ $(cat ./skip-ci.txt | grep "SKIP_CI=true" | wc -l) = "1" ]]; then
+              echo "Skipping CI, using the skip file"
+              cat ./circleci/skipped_config.yml > ./circleci/chosen_config.yml
+            else
+              cat ./circleci/ci_config.yml > ./circleci/chosen_config.yml
+            fi
+      - continuation/continue:
+          configuration_path: ./circleci/chosen_config.yml
+
+
+# jobs:
+#   check-skip-tests:
+#     machine:
+#       image: ubuntu-2004:202107-02
+#     steps:
+#       - checkout
+#       - run:
+#           name: check for skipCI flag in changelog file
+#           command: ./ci/check-changelog-for-skip-ci.sh
+#       - run:
+#           name: print the output
+#           command: |
+#             cat ./skip-ci.txt
+#       - persist_to_workspace:
+#           root: ./
+#           paths:
+#             - skip-ci.txt
 workflows:
-  build:
+  setup:
     jobs:
       - check-skip-tests
-      - unit-tests:
-          requires:
-            - check-skip-tests
-      - all-tests:
-          requires:
-            - check-skip-tests
-          matrix:
-            parameters:
-              platform_variant:
-                - "platform-a"
-                - "platform-b"
-              modifier:
-                - "no-modifier"
-                - "modifier-1"
