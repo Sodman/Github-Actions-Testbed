@@ -9,7 +9,7 @@ jobs:
       - run:
           name: run unit tests
           command: |
-            echo "Starting 2 minutes of 'unit testing'..." && sleep 120 && echo "Ok done"
+            echo "Starting 30 seconds of 'unit testing'..." && sleep 30 && echo "Ok done"
   all-tests:
     parameters:
       platform_variant:
@@ -26,7 +26,7 @@ jobs:
             PLATFORM_VARIANT: << parameters.platform_variant >>
             MODIFIER: << parameters.modifier >>
           command: |
-            echo "Starting 2 minutes of 'unit testing' for platform: $PLATFORM_VARIANT and modifier $MODIFIER..." && sleep 120 && echo "Ok done"
+            echo "Starting 30 seconds of 'unit testing' for platform: $PLATFORM_VARIANT and modifier $MODIFIER..." && sleep 30 && echo "Ok done"
 workflows:
   build:
     jobs:
