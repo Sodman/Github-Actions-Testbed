@@ -8,7 +8,7 @@ jobs:
       - run:
           name: check for skipCI flag in changelog file
           command: |
-            cd Github-Actions-Testbed
+            ls -la
             ./ci/check-changelog-for-skip-ci.sh
       - run:
           name: print the output
