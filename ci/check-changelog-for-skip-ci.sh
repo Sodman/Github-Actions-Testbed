@@ -14,7 +14,6 @@
 
 set -ex
 
-echo "SKIP_CI=false" >> $GITHUB_ENV
 echo "SKIP_CI=false" > skip-ci.txt
 
 if [[ $(git diff origin/main HEAD --name-only | grep "changelog/" | wc -l) = "1" ]]; then
@@ -23,7 +22,6 @@ if [[ $(git diff origin/main HEAD --name-only | grep "changelog/" | wc -l) = "1"
     echo "changelog file name == $changelogFileName"
     if [[ $(cat $changelogFileName | grep "skipCI: true") ]]; then
         echo "skip CI"
-	echo "SKIP_CI=true" >> $GITHUB_ENV
 	echo "SKIP_CI=true" > skip-ci.txt
     else
         echo "skipCI not set to true - not skipping CI"
