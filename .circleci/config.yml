@@ -28,7 +28,7 @@ jobs:
               cat ./.circleci/ci_config.yml > ./.circleci/chosen_config.yml
             fi
       - continuation/continue:
-          configuration_path: ./circleci/chosen_config.yml
+          configuration_path: ./.circleci/chosen_config.yml
 
 
 # jobs:
