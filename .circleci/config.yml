@@ -21,15 +21,11 @@ jobs:
       - run:
           name: Generate config
           command: |
-            ls -la
-            ls -la ./circleci
-            touch ./circleci/chosen_config.yaml
-            ls -la ./circleci
             if [[ $(cat ./skip-ci.txt | grep "SKIP_CI=true" | wc -l) = "1" ]]; then
               echo "Skipping CI, using the skip file"
-              cat ./circleci/skipped_config.yml > ./circleci/chosen_config.yml
+              cat ./.circleci/skipped_config.yml > ./.circleci/chosen_config.yml
             else
-              cat ./circleci/ci_config.yml > ./circleci/chosen_config.yml
+              cat ./.circleci/ci_config.yml > ./.circleci/chosen_config.yml
             fi
       - continuation/continue:
           configuration_path: ./circleci/chosen_config.yml
