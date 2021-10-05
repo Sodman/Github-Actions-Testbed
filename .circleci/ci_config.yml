@@ -1,0 +1,43 @@
+version: 2.1
+
+jobs:
+  unit-tests:
+    parallelism: 4
+    machine:
+      image: ubuntu-2004:202107-02
+    steps:
+      - checkout
+      - run:
+          name: run unit tests
+          command: |
+            echo "Starting 30 seconds of 'unit testing'..." && sleep 30 && echo "Ok done"
+  all-tests:
+    parameters:
+      platform_variant:
+        type: string
+      modifier:
+        type: string
+    machine:
+      image: ubuntu-2004:202107-02
+    steps:
+      - checkout
+      - run:
+          name: e2e tests
+          environment:
+            PLATFORM_VARIANT: << parameters.platform_variant >>
+            MODIFIER: << parameters.modifier >>
+          command: |
+            echo "Starting 30 seconds of 'unit testing' for platform: $PLATFORM_VARIANT and modifier $MODIFIER..." && sleep 30 && echo "Ok done"
+workflows:
+  build:
+    jobs:
+      - unit-tests
+      - all-tests:
+          matrix:
+            parameters:
+              platform_variant:
+                - "platform-a"
+                - "platform-b"
+              modifier:
+                - "no-modifier"
+                - "modifier-1"

@@ -1,0 +1,38 @@
+version: 2.1
+
+jobs:
+  unit-tests:
+    parallelism: 4
+    machine:
+      image: ubuntu-2004:202107-02
+    steps:
+      - run:
+          name: skip unit tests
+          command: |
+            echo "Skipped config due to presence of 'SkipCI: true' in changelog file."
+  all-tests:
+    parameters:
+      platform_variant:
+        type: string
+      modifier:
+        type: string
+    machine:
+      image: ubuntu-2004:202107-02
+    steps:
+      - run:
+          name: skip e2e tests
+          command: |
+            echo "Skipped config due to presence of 'SkipCI: true' in changelog file."
+workflows:
+  build:
+    jobs:
+      - unit-tests
+      - all-tests:
+          matrix:
+            parameters:
+              platform_variant:
+                - "platform-a"
+                - "platform-b"
+              modifier:
+                - "no-modifier"
+                - "modifier-1"
