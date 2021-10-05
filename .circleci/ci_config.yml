@@ -1,24 +1,6 @@
 version: 2.1
 
-setup: true
-
 jobs:
-  # check-skip-tests:
-  #   machine:
-  #     image: ubuntu-2004:202107-02
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: check for skipCI flag in changelog file
-  #         command: ./ci/check-changelog-for-skip-ci.sh
-  #     - run:
-  #         name: print the output
-  #         command: |
-  #           cat ./skip-ci.txt
-  #     - persist_to_workspace:
-  #         root: ./
-  #         paths:
-  #           - skip-ci.txt
   unit-tests:
     parallelism: 4
     machine:
@@ -49,18 +31,13 @@ jobs:
 workflows:
   build:
     jobs:
-      # - check-skip-tests
       - unit-tests
-          # requires:
-          #   - check-skip-tests
       - all-tests:
-          # requires:
-          #   - check-skip-tests
           matrix:
             parameters:
               platform_variant:
                 - "platform-a"
-                # - "platform-b"
+                - "platform-b"
               modifier:
                 - "no-modifier"
-                # - "modifier-1"
+                - "modifier-1"

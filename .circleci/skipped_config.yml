@@ -6,7 +6,6 @@ jobs:
     machine:
       image: ubuntu-2004:202107-02
     steps:
-      - checkout
       - run:
           name: skip unit tests
           command: |
@@ -20,7 +19,6 @@ jobs:
     machine:
       image: ubuntu-2004:202107-02
     steps:
-      - checkout
       - run:
           name: skip e2e tests
           command: |
@@ -28,18 +26,13 @@ jobs:
 workflows:
   build:
     jobs:
-      # - check-skip-tests
       - unit-tests
-          # requires:
-          #   - check-skip-tests
       - all-tests:
-          # requires:
-          #   - check-skip-tests
           matrix:
             parameters:
               platform_variant:
                 - "platform-a"
-                # - "platform-b"
+                - "platform-b"
               modifier:
                 - "no-modifier"
-                # - "modifier-1"
+                - "modifier-1"
