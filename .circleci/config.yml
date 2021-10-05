@@ -11,12 +11,21 @@ jobs:
       - run:
           name: print the output
           command: |
-            cat ./Github-Actions-Testbed/skip-ci.txt
+            cat ./skip-ci.txt
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - ./skip-ci.txt
   unit-tests:
     parallelism: 4
     machine:
       image: ubuntu-2004:202107-02
     steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: check if skip artifact transferred
+          command: ls -la /tmp/workspace && cat /tmp/workspace/skip-ci.txt
       - checkout
       - run:
           name: run unit tests

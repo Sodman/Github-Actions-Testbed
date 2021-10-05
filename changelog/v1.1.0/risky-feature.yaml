@@ -1,3 +1,4 @@
 changelog:
   - type: NON_USER_FACING
     description: Very risky feature, should require all of CI to run before merging.
+    skipCI: true
