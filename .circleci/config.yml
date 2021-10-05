@@ -51,4 +51,4 @@ jobs:
 workflows:
   setup:
     jobs:
-      - check-skip-tests
+      - setup
