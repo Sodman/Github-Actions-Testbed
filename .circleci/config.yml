@@ -13,16 +13,16 @@ jobs:
           command: |
             cat ./skip-ci.txt
       - persist_to_workspace:
-          root: /tmp/workspace
+          root: ./
           paths:
-            - ./skip-ci.txt
+            - skip-ci.txt
   unit-tests:
     parallelism: 4
     machine:
       image: ubuntu-2004:202107-02
     steps:
       - attach_workspace:
-          at: /tmp/workspace
+          at: ./
       - run:
           name: check if skip artifact transferred
           command: ls -la /tmp/workspace && cat /tmp/workspace/skip-ci.txt
